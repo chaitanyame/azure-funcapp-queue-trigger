@@ -1,0 +1,1 @@
+# azure-funcapp-queue-trigger
