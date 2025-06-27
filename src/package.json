@@ -1,0 +1,15 @@
+{
+  "name": "azure-decoupled-functionapp",
+  "version": "1.0.0",
+  "description": "POC for Azure Function with Storage Queue trigger and Blob bindings",
+  "main": "functions/storageQueueCopyBlob.js",
+  "scripts": {
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
