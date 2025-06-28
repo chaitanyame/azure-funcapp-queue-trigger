@@ -1,0 +1,14 @@
+{
+  "user_id": 12345,
+  "action": "purchase",
+  "product": {
+    "id": "PROD-001",
+    "name": "Wireless Headphones",
+    "price": 99.99
+  },
+  "timestamp": "2025-06-27T10:30:00Z",
+  "metadata": {
+    "source": "mobile_app",
+    "version": "2.1.0"
+  }
+}
