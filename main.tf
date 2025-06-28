@@ -48,9 +48,20 @@ resource "azurerm_storage_queue" "storage_queue" {
   storage_account_name = azurerm_storage_account.func_storage.name
 }
 
+resource "azurerm_storage_queue" "json_process_queue" {
+  name                 = "jsonprocessqueue"
+  storage_account_name = azurerm_storage_account.func_storage.name
+}
+
 resource "azurerm_storage_container" "storage_container" {
   name                 = "helloworld"
   storage_account_name = azurerm_storage_account.func_storage.name
+}
+
+resource "azurerm_storage_container" "json_messages_container" {
+  name                 = "json-messages"
+  storage_account_name = azurerm_storage_account.func_storage.name
+  container_access_type = "private"
 }
 
 resource "azurerm_service_plan" "func_consumption_plan" {

@@ -1,26 +1,82 @@
-# Azure Function App with Queue Trigger
+# Azure Function App with Queue Processing System
 
 This project demonstrates an Azure Function App using Python with:
-- Azure Storage Queue as the trigger
-- Queue message processing and logging
+- Two separate queue processing functions
+- JSON message processing and blob storage
+- Azure Storage Queue triggers
 - Terraform for complete infrastructure provisioning
 - Robust error handling and message processing
 
 ## Architecture
 
-The function is triggered by messages in an Azure Storage Queue and:
-1. Receives messages from the `copyblobqueue` storage queue
-2. Processes and logs the message content
-3. Handles message encoding and decoding properly
-4. Provides comprehensive logging for monitoring
+### Function 1: Queue Logger (`copyblobqueue`)
+- Receives messages from the `copyblobqueue` storage queue
+- Logs message content for monitoring
+- Simple message processing and logging
+
+### Function 2: JSON Processor (`jsonprocessqueue`)
+- Receives JSON messages from the `jsonprocessqueue` storage queue
+- Directly copies JSON messages to blob storage
+- Saves files as `json-messages/message-{guid}.json`
 
 ## Features
 
-- ✅ **Queue Trigger**: Automatically processes messages from Azure Storage Queue
+- ✅ **Dual Queue Processing**: Two functions handling different queues
+- ✅ **JSON to Blob**: Direct JSON message copying to blob storage
+- ✅ **Queue Triggers**: Automatically processes messages from Azure Storage Queues
+- ✅ **JSON Sender Script**: Python script to send JSON messages to queue
 - ✅ **Error Handling**: Robust exception handling to prevent message failures
 - ✅ **Logging**: Comprehensive logging for Application Insights monitoring
 - ✅ **No Retries**: Configured to process messages once without poison queue
 - ✅ **Infrastructure as Code**: Complete Terraform setup for all Azure resources
+
+## Quick Start - JSON Processing
+
+### 1. Set Environment Variable
+```powershell
+$env:AZURE_STORAGE_CONNECTION_STRING = "your_connection_string_from_terraform"
+```
+
+### 2. Send JSON Messages to Queue
+
+**Option 1: Send Random JSON (Easy Testing)**
+```powershell
+# Send 1 random JSON message
+.\run-json-sender.ps1
+
+# Send 5 random JSON messages
+.\run-json-sender.ps1 -Count 5
+```
+
+**Option 2: Send Specific JSON File**
+```powershell
+# Send sample1.json
+.\run-json-sender.ps1 -JsonFile "sample1.json"
+
+# Send sample2.json
+.\run-json-sender.ps1 -JsonFile "sample2.json"
+```
+
+**Option 3: Direct Python Command**
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r script-requirements.txt
+
+# Send random JSON
+python send_json_to_queue.py
+
+# Send specific file
+python send_json_to_queue.py --file sample1.json
+
+# Send multiple random messages
+python send_json_to_queue.py --count 3
+```
+
+### 3. Monitor Results
+- **Function Logs**: Check Azure Portal → Function App → Monitor
+- **Blob Storage**: Check `json-messages/` container for processed JSON files
+- **File Format**: `message-{random-guid}.json`
 
 ## Prerequisites
 
@@ -101,8 +157,13 @@ The function is triggered by messages in an Azure Storage Queue and:
 
 ```
 ├── function_app.py          # Main Azure Function code
+├── send_json_to_queue.py   # JSON sender script
+├── run-json-sender.ps1     # PowerShell helper script
+├── script-requirements.txt # Script dependencies
+├── sample1.json            # Test JSON file
+├── sample2.json            # Test JSON file
+├── requirements.txt        # Function app dependencies
 ├── host.json               # Function app configuration
-├── requirements.txt        # Python dependencies
 ├── main.tf                # Terraform main configuration
 ├── variables.tf           # Terraform variables
 ├── outputs.tf             # Terraform outputs

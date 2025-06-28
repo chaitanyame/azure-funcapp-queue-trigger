@@ -1,0 +1,12 @@
+{
+  "event_type": "user_registration",
+  "user": {
+    "email": "newuser@example.com",
+    "name": "John Smith",
+    "age": 28,
+    "preferences": ["electronics", "books", "music"]
+  },
+  "registration_date": "2025-06-27",
+  "verification_status": "pending",
+  "referral_code": "REF123"
+}
